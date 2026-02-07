@@ -204,7 +204,7 @@ class Model extends QueryBuilder {
      * 启动查询链
      * @returns {QueryChain}
      */
-    static query() {
+    static newQuery() {
         return new QueryChain(this);
     }
 

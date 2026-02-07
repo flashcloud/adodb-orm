@@ -25,11 +25,11 @@ async function updateUser() {
 }
 
 async function queryUserByChain() {
-    const users = await UserModel.query()
+    const users = await UserModel.newQuery()
     .select('*')
     .where({ age: 25 })
     .execute();
-    console.log('Users found: ' + users);
+    console.log('Users found: ' + users[0].userName);
 }
 
 async function deleteUser() {
