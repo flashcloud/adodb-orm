@@ -74,7 +74,7 @@ const UserModel = require('./userModel');
 const users = await UserModel.where({ userName: "John" });
 
 // 链式查询
-const results = await UserModel.query()
+const results = await UserModel.newQuery()
     .select('users.*', 'orders.amount')
     .join('orders', 'users.id = orders.user_id')
     .where({ 'users.sex': '男' })
@@ -90,11 +90,11 @@ const results = await UserModel.query()
 
 ### 静态方法
 
-#### `Model.query()`
+#### `Model.newQuery()`
 启动查询链，返回 `QueryChain` 实例。
 
 ```javascript
-UserModel.query()
+UserModel.newQuery()
     .select('*')
     .where({ age: 25 })
     .execute();
@@ -147,19 +147,19 @@ await UserModel.delete({ userName: "Mike" });
 
 ```javascript
 // 选择所有字段
-UserModel.query().select('*').execute();
+UserModel.newQuery().select('*').execute();
 
 // 选择特定字段
-UserModel.query().select('userName', 'age').execute();
+UserModel.newQuery().select('userName', 'age').execute();
 
 // 多表字段
-UserModel.query()
+UserModel.newQuery()
     .select('users.userName', 'orders.amount')
     .join('orders', 'users.id = orders.user_id')
     .execute();
 
 // 字段别名
-UserModel.query()
+UserModel.newQuery()
     .select('users.id as user_id', 'orders.id as order_id')
     .join('orders', 'users.id = orders.user_id')
     .execute();
@@ -170,7 +170,7 @@ UserModel.query()
 执行 INNER JOIN。
 
 ```javascript
-UserModel.query()
+UserModel.newQuery()
     .join('orders', 'users.id = orders.user_id')
     .execute();
 ```
@@ -180,7 +180,7 @@ UserModel.query()
 执行 LEFT JOIN（包含左表所有记录，即使右表没有匹配）。
 
 ```javascript
-UserModel.query()
+UserModel.newQuery()
     .leftJoin('orders', 'users.id = orders.user_id')
     .execute();
 ```
@@ -190,7 +190,7 @@ UserModel.query()
 执行 RIGHT JOIN（包含右表所有记录，即使左表没有匹配）。
 
 ```javascript
-UserModel.query()
+UserModel.newQuery()
     .rightJoin('orders', 'users.id = orders.user_id')
     .execute();
 ```
@@ -201,12 +201,12 @@ UserModel.query()
 
 ```javascript
 // 对象形式（自动处理引号）
-UserModel.query()
+UserModel.newQuery()
     .where({ userName: 'Mike', sex: '男' })
     .execute();
 
 // 字符串形式
-UserModel.query()
+UserModel.newQuery()
     .where("age > 18")
     .execute();
 ```
@@ -216,7 +216,7 @@ UserModel.query()
 添加原始 SQL WHERE 条件。
 
 ```javascript
-UserModel.query()
+UserModel.newQuery()
     .whereRaw("amount > 100 AND status = 'active'")
     .execute();
 ```
@@ -226,12 +226,12 @@ UserModel.query()
 设置排序，direction 可以是 `'ASC'` 或 `'DESC'`（默认 `'ASC'`）。
 
 ```javascript
-UserModel.query()
+UserModel.newQuery()
     .orderBy('age', 'DESC')
     .execute();
 
 // 多个排序条件
-UserModel.query()
+UserModel.newQuery()
     .orderBy('sex', 'ASC')
     .orderBy('age', 'DESC')
     .execute();
@@ -243,10 +243,10 @@ UserModel.query()
 
 ```javascript
 // 获取前 10 条记录
-UserModel.query().limit(10).execute();
+UserModel.newQuery().limit(10).execute();
 
 // 跳过前 20 条，获取接下来的 10 条
-UserModel.query().limit(10).offset(20).execute();
+UserModel.newQuery().limit(10).offset(20).execute();
 ```
 
 ### execute()
@@ -254,7 +254,7 @@ UserModel.query().limit(10).offset(20).execute();
 执行查询并返回结果数组。
 
 ```javascript
-const results = await UserModel.query()
+const results = await UserModel.newQuery()
     .select('*')
     .where({ sex: '男' })
     .execute();
@@ -267,7 +267,7 @@ console.log(results); // [{ id: 1, userName: 'Mike', ... }, ...]
 获取第一条记录，如果没有记录则返回 `null`。
 
 ```javascript
-const user = await UserModel.query()
+const user = await UserModel.newQuery()
     .where({ userName: 'Mike' })
     .first();
 
@@ -279,7 +279,7 @@ console.log(user); // { id: 1, userName: 'Mike', ... } 或 null
 返回生成的 SQL 字符串，用于调试。
 
 ```javascript
-const sql = UserModel.query()
+const sql = UserModel.newQuery()
     .select('users.*', 'orders.amount')
     .join('orders', 'users.id = orders.user_id')
     .where({ 'users.userName': 'Mike' })
@@ -298,7 +298,7 @@ console.log(sql);
 查询用户及其订单信息。
 
 ```javascript
-const results = await UserModel.query()
+const results = await UserModel.newQuery()
     .select('users.*', 'orders.id as order_id', 'orders.amount')
     .join('orders', 'users.id = orders.user_id')
     .where({ 'users.userName': 'Mike' })
@@ -322,7 +322,7 @@ WHERE users.userName = 'Mike';
 查询所有用户，包括没有订单的用户。
 
 ```javascript
-const results = await UserModel.query()
+const results = await UserModel.newQuery()
     .select('users.userName', 'orders.amount')
     .leftJoin('orders', 'users.id = orders.user_id')
     .orderBy('users.userName', 'ASC')
@@ -344,7 +344,7 @@ ORDER BY users.userName ASC;
 多条件、多表连接。
 
 ```javascript
-const results = await UserModel.query()
+const results = await UserModel.newQuery()
     .select('users.*', 'orders.amount', 'products.name')
     .join('orders', 'users.id = orders.user_id')
     .join('products', 'orders.product_id = products.id')
@@ -371,7 +371,7 @@ LIMIT 10;
 ### 示例 4: 获取单条记录
 
 ```javascript
-const user = await UserModel.query()
+const user = await UserModel.newQuery()
     .join('orders', 'users.id = orders.user_id')
     .where({ 'orders.id': 123 })
     .first();
@@ -390,7 +390,7 @@ if (user) {
 使用 `toSql()` 查看生成的 SQL 语句。
 
 ```javascript
-const sql = UserModel.query()
+const sql = UserModel.newQuery()
     .select('users.*', 'orders.amount')
     .join('orders', 'users.id = orders.user_id')
     .where({ 'users.userName': 'Mike' })
@@ -410,7 +410,7 @@ console.log('生成的 SQL:', sql);
 const page = 3;
 const pageSize = 10;
 
-const results = await UserModel.query()
+const results = await UserModel.newQuery()
     .select('*')
     .orderBy('id', 'ASC')
     .limit(pageSize)
@@ -426,7 +426,7 @@ console.log(`第 ${page} 页数据:`, results);
 
 ```javascript
 // 查询年龄大于 25 岁的男性用户
-const results = await UserModel.query()
+const results = await UserModel.newQuery()
     .select('userName', 'age')
     .where({ sex: '男' })
     .whereRaw("age > 25")
@@ -442,7 +442,7 @@ const results = await UserModel.query()
 
 ```javascript
 // 查询购买了特定产品的用户信息
-const results = await UserModel.query()
+const results = await UserModel.newQuery()
     .select(
         'users.id',
         'users.userName',
