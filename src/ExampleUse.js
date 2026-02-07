@@ -24,6 +24,14 @@ async function updateUser() {
     console.log('User updated: ' + user);
 }
 
+async function queryUserByChain() {
+    const users = await UserModel.query()
+    .select('*')
+    .where({ age: 25 })
+    .execute();
+    console.log('Users found: ' + users);
+}
+
 async function deleteUser() {
     var user = await UserModel.delete({userName: "Mike"});
     console.log('User deleted: ' + user);
@@ -33,6 +41,7 @@ async function deleteUser() {
     await saveUser();
     await whereUser();
     await updateUser();
+    await queryUserByChain();
     await deleteUser(); 
 })()
 
