@@ -1,0 +1,19 @@
+{
+  "name": "adodb-orm",
+  "version": "1.0.0",
+  "description": "ORM for Ms Access and ole db databases",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/ExampleUse.js"
+  },
+  "dependencies": {
+    "adodb-query-builder": "^1.0.9"
+  },
+  "license": "ISC",
+  "author": "sungole",
+  "devDependencies": {
+    "grunt": "^1.6.1",
+    "grunt-contrib-clean": "^2.0.1",
+    "grunt-contrib-copy": "^1.0.0"
+  }
+}
