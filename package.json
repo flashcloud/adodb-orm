@@ -11,6 +11,10 @@
   },
   "license": "ISC",
   "author": "sungole",
+   "repository": {
+    "type": "git",
+    "url": "git://github.com/flashcloud/adodb-orm.git"
+  }, 
   "devDependencies": {
     "grunt": "^1.6.1",
     "grunt-contrib-clean": "^2.0.1",
