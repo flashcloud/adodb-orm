@@ -20,7 +20,12 @@ module.exports = function (grunt) {
                 options: {
                     process: function (content) {
                         const pkg = JSON.parse(content);
-                        delete pkg.devDependencies;
+                        // 只删除 grunt 相关的依赖项
+                        if (pkg.devDependencies) {
+                            delete pkg.devDependencies['grunt'];
+                            delete pkg.devDependencies['grunt-contrib-clean'];
+                            delete pkg.devDependencies['grunt-contrib-copy'];
+                        }
                         return JSON.stringify(pkg, null, 2);
                     }
                 },
