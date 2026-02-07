@@ -1,6 +1,6 @@
 {
   "name": "adodb-orm",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "ORM for Ms Access and ole db databases",
   "main": "src/index.js",
   "scripts": {

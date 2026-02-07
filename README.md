@@ -29,7 +29,7 @@
 ## 安装
 
 ```bash
-npm install adodb-query-builder
+npm install adodb-orm
 ```
 
 ---
