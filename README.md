@@ -40,7 +40,7 @@ npm install adodb-orm
 
 ```javascript
 // userModel.js
-const Model = require('./Model.js');
+const { Model } = require('adodb-orm');
 
 class UserModel extends Model {
     constructor() {
@@ -60,7 +60,7 @@ module.exports = UserModel;
 ### 2. 连接数据库
 
 ```javascript
-const ConnectDB = require('adodb-query-builder').ConnectDB;
+const { ConnectDB } = require('adodb-orm');
 
 ConnectDB.connect("Provider=Microsoft.Jet.OLEDB.4.0;Data Source=/path/to/database.mdb;Persist Security Info=False;");
 ```
