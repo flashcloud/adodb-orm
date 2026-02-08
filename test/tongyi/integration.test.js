@@ -108,8 +108,4 @@ describe('ADODB ORM 集成测试', function() {
             expect(mockConnection.execute.firstCall.args[0]).to.equal("DELETE FROM users WHERE id = 1;");
         });
     });
-
-    describe('错误处理测试', function() {
-        
-        class TestModel extends Model {
-            static tableName
+})
